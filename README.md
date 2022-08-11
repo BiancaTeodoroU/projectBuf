@@ -7,6 +7,8 @@ Prof só uma atenção ta, fiquei em duvida de como deveria ser feita a atividad
  entrar no banco 
  
  mysql -u projectbuf -p
+ 
+ show databases;
 
 
 source myenv/bin/activate
