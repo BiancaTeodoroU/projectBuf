@@ -30,7 +30,7 @@ class Categoria(db.Model):
     __tablename__ = "categoria"
     id = db.Column('cat_id', db.Integer, primary_key=True)
     nome = db.Column('cat_nome', db.String(256))
-    desc = db.Column('cat_desc', db.String(256))
+    desc = db.Column('cat_descricao', db.String(256))
 
     def __init__ (self, nome, desc):
         self.nome = nome
@@ -38,10 +38,10 @@ class Categoria(db.Model):
 
 class Anuncio(db.Model):
     __tablename__ = "anuncio"
-    id = db.Column('anu_id', db.Integer, primary_key=True)
+    id = db.Column('anuncio_id', db.Integer, primary_key=True)
     nome = db.Column('anu_nome', db.String(256))
-    desc = db.Column('anu_desc', db.String(256))
-    qtd = db.Column('anu_qtd', db.Integer)
+    desc = db.Column('anu_descricao', db.String(256))
+    qtd = db.Column('anu_quantidade', db.Integer)
     preco = db.Column('anu_preco', db.Float)
     cat_id = db.Column('cat_id',db.Integer, db.ForeignKey("categoria.cat_id"))
     usu_id = db.Column('usu_id',db.Integer, db.ForeignKey("usuario.usu_id"))

@@ -8,19 +8,29 @@
 </head>
 <body>
     <h4>Cadastro de {{titulo}}</h4>
-    <form action="/cadast/anuncio" method="post">
-        <p><label for="user">Username</label>
-        <input type="text" id="user" name="user"></p>
+    <form action="/anuncio/novo" method="post">
+        <p><label for="nome">titulo do anuncio</label>
+        <input type="text" id="nome" name="nome"></p>
 
-        <p><label for="email">E-mail</label>
-        <input type="text" id="email" name="email"></p>       
-
-        <p><label for="senha">Password</label>
-        <input type="text" id="senha" name="senha"></p>
-
-        <p><label for="endereco">Endereco</label>
-        <input type="text" id="endereco" name="endereco"></p>
-        
+        <p><label for="desc">Desc</label>
+            <textarea rows="4" cols="50" id="desc" name="desc"></textarea></p>       
+    
+            <p><label for="qtd">Quantidade</label>
+            <input type="text" id="qtd" name="qtd"></p>
+    
+            <p><label for="preco">Preco</label>
+            <input type="text" id="preco" name="preco"></p>
+            
+            <p><label for="cat">Categoria</label>
+            <select id="cat" name="cat">
+                {% for categoria in categorias %} 
+                    <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
+                {% endfor %}
+            </select></p>
+    
+            <p><label for="usu">Usuario</label>
+            <input type="text" id="uso" name="uso"></p>
+    
         <p><input type="submit" value="Cadastrar"></p>
     </form>
 
@@ -29,22 +39,20 @@
         <thead>
             <tr>
                 <th>Nome</th>
-                <th>E-mail</th>
-                <th>Senha</th>
-                <th>Endereco</th>
-                <th>Editar</th>
-                <th>Deletar</th>
+                <th>Desc</th>
+                <th>Qtd</th>
+                <th>Preco</th>
+                <th>Categoria</th>
             </tr>
         </thead>
         <tbody>
-            {% for usuario in usuarios %}
+            {% for anuncio in anuncios %}
                 <tr>
-                    <td>{{ usuario.nome }}</td>
-                    <td>{{ usuario.email }}</td>
-                    <td>{{ usuario.senha }}</td>
-                    <td>{{ usuario.endereco }}</td>
-                    <td><a href={{ url_for("editarusuario",id=usuario.id) }}>Editar?</a></td>
-                    <td><a href={{ url_for("deletarusuario",id=usuario.id) }}>Deletar?</a></td>
+                    <td>{{ anuncio.nome }}</td>
+                    <td>{{ anuncio.desc }}</td>
+                    <td>{{ anuncio.qtd }}</td>
+                    <td>{{ anuncio.preco }}</td>
+                    <td>{{ anuncio.cat_id }}</td>
                 </tr>
             {% endfor %}
         </tbody>
