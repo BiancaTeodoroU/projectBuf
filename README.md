@@ -1,16 +1,20 @@
 # projectBuf
 
+# Projeto utilizando o framework flask para desenvolvimento de sistema de vendas 
+
+## Nome escolhido para o meu sistema é BUF 
+
 Bom | Útil | Fácil
 
+ ### entrar no banco 
+ 
+     mysql -u projectbuf -p
+ 
+### Ver os bancos salvos
 
- 
- entrar no banco 
- 
- mysql -u projectbuf -p
- 
- show databases;
+    show databases;
 
-## Iniciar o ambiente virtual
+### Iniciar o ambiente virtual
 
     source myenv/bin/activate
 
@@ -20,4 +24,4 @@ Bom | Útil | Fácil
 
 ### Iniciar o ambiente virtual
 
-   flask run
+    flask run
