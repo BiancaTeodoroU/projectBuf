@@ -31,6 +31,8 @@
                 <tr>
                     <td>{{ categoria.nome }}</td>
                     <td>{{ categoria.desc }}</td>
+                    <td><a href={{ url_for("editarcategoria",id=categoria.id) }}>Editar?</a></td>
+                    <td><a href={{ url_for("deletarcategoria",id=categoria.id) }}>Deletar?</a></td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -110,6 +110,25 @@ def novacategoria():
     db.session.commit()
     return redirect(url_for('categoria'))
 
+@app.route("/categoria/editar/<int:id>", methods=['GET','POST'])
+def editarcategoria(id):
+    categoria = Categoria.query.get(id)
+    if request.method == 'POST':
+        categoria.nome = request.form.get('nome')
+        categoria.descricao = request.form.get('desc')
+        db.session.add(categoria)
+        db.session.commit()
+        return redirect(url_for('categoria'))
+
+    return render_template('editCategoria.html', categoria = categoria, titulo="Categoria")
+
+@app.route("/categoria/deletar/<int:id>")
+def deletarcategoria(id):
+    categoria = Categoria.query.get(id)
+    db.session.delete(categoria)
+    db.session.commit()
+    return redirect(url_for('categoria'))     
+
 @app.route("/cadast/anuncio")
 def anuncio():
     return render_template('anuncio.html', anuncios = Anuncio.query.all(), categorias = Categoria.query.all(), titulo="Anuncio")
@@ -120,6 +139,29 @@ def novoanuncio():
     db.session.add(anuncio)
     db.session.commit()
     return redirect(url_for('anuncio'))
+
+@app.route("/anuncio/editar/<int:id>", methods=['GET','POST'])
+def editaranuncio(id):
+    anuncio = Anuncio.query.get(id)
+    if request.method == 'POST':
+        anuncio.nome = request.form.get('nome')
+        anuncio.desc = request.form.get('desc')
+        anuncio.qtd = request.form.get('qtd')
+        anuncio.preco = request.form.get('preco')
+        anuncio.cat_id = request.form.get('cat_id')
+        anuncio.usu_id = request.form.get('usu_id')
+        db.session.add(anuncio)
+        db.session.commit()
+        return redirect(url_for('anuncio'))
+
+    return render_template('editAnuncio.html', anuncio = anuncio, titulo="Anuncio")
+
+@app.route("/anuncio/deletar/<int:id>")
+def deletaranuncio(id):
+    anuncio = Anuncio.query.get(id)
+    db.session.delete(anuncio)
+    db.session.commit()
+    return redirect(url_for('anuncio'))     
 
 @app.route("/anuncios/pergunta")
 def pergunta():

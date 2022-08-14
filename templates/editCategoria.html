@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>editCategoria</title>
+</head>
+<body>
+    <h4>Edicao de {{titulo}}</h4>
+    <form action="/categoria/editar/{{ categoria.id }}" method="post">
+        <p><label for="nome">Nome</label>
+        <input type="text" id="nome" name="nome" value="{{categoria.nome}}"></p>
+
+        <p><label for="desc">Descrição</label>
+        <input type="text" id="desc" name="desc" value="{{categoria.desc}}"></p>       
+        
+        <p><input type="submit" value="Alterar"></p>
+    </form>
+    <a href={{url_for("categoria")}}> Cancelar</a>
+</body>
+</html>
