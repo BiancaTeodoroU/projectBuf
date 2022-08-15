@@ -1,18 +1,27 @@
 # projectBuf
 
+# Projeto utilizando o framework flask para desenvolvimento de sistema de vendas 
+
+## Nome escolhido para o meu sistema é BUF 
+
 Bom | Útil | Fácil
 
-Prof só uma atenção ta, fiquei em duvida de como deveria ser feita a atividade e mandei mensagem para a ana assim como o senhor orientou mas ela não me respondeu para tirar minhas duvidas, então acabei fazendo desse jeito pois achei que seria o mais correto. 
+ ### entrar no banco 
  
- entrar no banco 
+     mysql -u projectbuf -p
  
- mysql -u projectbuf -p
- 
- show databases;
+### Ver os bancos salvos
 
+    show databases;
 
-source myenv/bin/activate
+### Iniciar o ambiente virtual
 
-export FLASK_APP=buf
+    source myenv/bin/activate
 
-flask run
+### entrar dentro do projeto no ambiente virtual 
+
+    export FLASK_APP=buf
+
+### Iniciar o ambiente virtual
+
+    flask run
