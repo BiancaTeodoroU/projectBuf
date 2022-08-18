@@ -5,12 +5,21 @@ from flask import request
 from flask_sqlalchemy import SQLAlchemy
 from flask import url_for
 from flask import redirect
+from flask_login import (current_user, LoginManager,
+                            login_user, logout_user,
+                            login_required)
+import hashlib
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://projectbuf:toledo23@localhost:3306/buf'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+
+app.secret_key = 'sopa é janta'
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
 
 class Usuario(db.Model):
     __tablename__ = "usuario"
@@ -25,6 +34,18 @@ class Usuario(db.Model):
         self.email = email
         self.senha = senha 
         self.endereco = endereco
+
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return str(self.id)
 
 class Categoria(db.Model):
     __tablename__ = "categoria"
@@ -54,21 +75,50 @@ class Anuncio(db.Model):
         self.cat_id = cat_id
         self.usu_id = usu_id
 
+    def get_categoria(self):
+        return Categoria.query.get(self.cat_id)
+
 @app.errorhandler(404)
 def paginanaoencontrada(error):
     return render_template('pagNaoEncontrada.html')
 
+@login_manager.user_loader
+def load_user(id):
+    return Usuario.query.get(id)
+
+@app.route("/login", methods=['GET','POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        passwd = hashlib.sha512(str(request.form.get('passwd')).encode("utf-8")).hexdigest()
+
+        user = Usuario.query.filter_by(email=email, senha=passwd).first()
+        if user:
+            login_user(user)
+            return redirect(url_for('index'))
+        else:
+            return redirect(url_for('login'))
+    return render_template('login.html')
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
 @app.route("/")
+@login_required
 def index():
     return render_template('index.html')
 
 @app.route("/cadastro/usuario")
+@login_required
 def usuario():
     return render_template('usuario.html', usuarios = Usuario.query.all(), titulo="Usuario")
 
 @app.route("/usuario/criar", methods=['POST'])
 def criarusuario():
-    usuario = Usuario(request.form.get('user'), request.form.get('email'),request.form.get('senha'),request.form.get('endereco'))
+    hash = hashlib.sha512(str(request.form.get('senha')).encode("utf-8")).hexdigest()
+    usuario = Usuario(request.form.get('user'), request.form.get('email'),hash,request.form.get('end'))
     db.session.add(usuario)
     db.session.commit()
     return redirect(url_for('usuario'))
@@ -84,7 +134,7 @@ def editarusuario(id):
     if request.method == 'POST':
         usuario.nome = request.form.get('user')
         usuario.email = request.form.get('email')
-        usuario.senha = request.form.get('senha')
+        usuario.passwd = hashlib.sha512(str(request.form.get('passwd')).encode("utf-8")).hexdigest()
         usuario.endereco = request.form.get('endereco')
         db.session.add(usuario)
         db.session.commit()
@@ -130,12 +180,21 @@ def deletarcategoria(id):
     return redirect(url_for('categoria'))     
 
 @app.route("/cadast/anuncio")
+@login_required
 def anuncio():
     return render_template('anuncio.html', anuncios = Anuncio.query.all(), categorias = Categoria.query.all(), titulo="Anuncio")
 
 @app.route("/anuncio/novo", methods=['POST'])
 def novoanuncio():
-    anuncio = Anuncio(request.form.get('nome'), request.form.get('desc'),request.form.get('qtd'),request.form.get('preco'),request.form.get('cat'),request.form.get('uso'))
+    print('categoria {} usuario {}'.format(request.form.get('cat'),
+        request.form.get('uso')))
+    anuncio = Anuncio(
+        request.form.get('nome'), 
+        request.form.get('desc'),
+        request.form.get('qtd'),
+        request.form.get('preco'),
+        request.form.get('cat'),
+        request.form.get('uso'))
     db.session.add(anuncio)
     db.session.commit()
     return redirect(url_for('anuncio'))
@@ -143,18 +202,19 @@ def novoanuncio():
 @app.route("/anuncio/editar/<int:id>", methods=['GET','POST'])
 def editaranuncio(id):
     anuncio = Anuncio.query.get(id)
+    categorias = Categoria.query.all()
     if request.method == 'POST':
         anuncio.nome = request.form.get('nome')
         anuncio.desc = request.form.get('desc')
         anuncio.qtd = request.form.get('qtd')
         anuncio.preco = request.form.get('preco')
-        anuncio.cat_id = request.form.get('cat_id')
-        anuncio.usu_id = request.form.get('usu_id')
+        anuncio.cat_id = request.form.get('cat')
+        anuncio.usu_id = request.form.get('uso')
         db.session.add(anuncio)
         db.session.commit()
         return redirect(url_for('anuncio'))
 
-    return render_template('editAnuncio.html', anuncio = anuncio, titulo="Anuncio")
+    return render_template('editAnuncio.html', categorias = categorias, anuncio = anuncio, titulo="Anuncio")
 
 @app.route("/anuncio/deletar/<int:id>")
 def deletaranuncio(id):

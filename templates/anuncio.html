@@ -23,13 +23,14 @@
             
             <p><label for="cat">Categoria</label>
             <select id="cat" name="cat">
+                <option>selecione uma categoria</option>
                 {% for categoria in categorias %} 
                     <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
                 {% endfor %}
             </select></p>
     
-            <p><label for="usu">Usuario</label>
-            <input type="text" id="uso" name="uso"></p>
+            <p><label for="usu">Usuario id</label>
+            <input type="number" id="uso" name="uso"></p>
     
         <p><input type="submit" value="Cadastrar"></p>
     </form>
@@ -52,7 +53,7 @@
                     <td>{{ anuncio.desc }}</td>
                     <td>{{ anuncio.qtd }}</td>
                     <td>{{ anuncio.preco }}</td>
-                    <td>{{ anuncio.cat_id }}</td>
+                    <td>{{ anuncio.get_categoria().nome }}</td>
                     <td><a href={{ url_for("editaranuncio",id=anuncio.id) }}>Editar?</a></td>
                     <td><a href={{ url_for("deletaranuncio",id=anuncio.id) }}>Deletar?</a></td>
                 </tr>

@@ -24,12 +24,16 @@
         <p><label for="cat">Categoria</label>
             <select id="cat" name="cat">
                 {% for categoria in categorias %} 
-                    <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
+                    {% if categoria.id == anuncio.cat_id %}
+                        <option value="{{ categoria.id }}" selected>{{ categoria.nome }}</option>
+                    {% else %}
+                        <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
+                    {% endif %}
                 {% endfor %}
             </select></p>
         
         <p><label for="usu">Usuario</label>
-        <input type="text" id="uso" name="uso"></p>
+        <input type="text" id="uso" value="{{ anuncio.usu_id }}" name="uso"></p>
         
         <p><input type="submit" value="Alterar"></p>
     </form>
