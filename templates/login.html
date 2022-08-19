@@ -4,18 +4,40 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/stylees.css">
     <title>Login</title>
 </head>
 <body>
-    <h4>Login</h4>
+    <div class="c-sectionLoginTitle">
+        <h4>Sessão de Login</h4>
+    </div>
+    <div class="c-welcome">
+        <span class="c-welcome__title">Welcome!</span>
+    </div>
     <form action="/login" method="post">
-        <p><label for="email">Email</label>
-        <input type="text" id="email" name="email"></p>
-
-        <p><label for="passwd">Senha</label>
-        <input type="password" id="passwd" name="passwd"></p>       
-
-        <p><input type="submit" value="Logar"></p>
+        <div class="c-sectionAuthentication">
+            <div class="o-img-container">
+                <img src="../static/img/equipe.webp" alt="">
+            </div>
+            
+            <div class="o-container">
+                <div class="o-input-container"> 
+                    <div class="u-m-30">
+                        <label for="email">Email</label>
+                        <input type="text" id="email" name="email"  placeholder="Digite seu email">
+                    </div>
+                </div>
+                <div class="o-input-container"> 
+                    <div class="u-m-30">
+                        <label for="passwd">Senha</label>
+                        <input type="password" id="passwd" name="passwd"  placeholder="Digite sua senha">       
+                    </div>
+                </div>
+            
+            <div class="o-button-entrar">
+                <input type="submit" value="Logar">
+            </div>
+        </div>
     </form>
 </body>
 </html>

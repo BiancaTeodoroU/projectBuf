@@ -1,0 +1,207 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    overflow: hidden;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    overflow: scroll;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+.ajust-enviar {
+    background: #e61919;
+    margin: 15px;
+    padding: 15px 100px;
+    margin-left: 15.5em;
+    border: none;
+    color: white;
+}
+
+.ajust-title span {
+    display: flex;
+    margin: 5px 50px;
+    font-size: 16px;
+    color: red;
+}
+
+.ajust-title p {
+    display: flex;
+    margin: 10px 50px;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.container-align {
+    margin-top: 20px;
+    margin: 10px 50px;
+}
+
+.ajust-anuncio-nome input {
+    border-radius: 15px;
+    border: 2px solid #4040FF;
+    padding: 10px;
+    margin: 10px;
+}
+
+.ajust-anuncio-desc textarea {
+    border-radius: 15px;
+    border: 2px solid #4040FF;
+    padding: 10px;
+    margin: 10px;
+}
+
+.ajust-anuncio-desc label {
+    display: flex;
+    text-align: center;
+}
+
+.container-ide {
+    margin-top: 60px;
+}
+
+h4 {
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.ajust-result {
+    border-spacing: 10px;
+}
+
+.estile-edit {
+    color: blue;
+}
+
+label {
+    font-size: 18px;
+}
+
+.estile-delete {
+    color: red;
+}
+
+.estilizando {
+    border: 1px solid black;
+}
+
+.ajust-title-result {
+    margin: 20px;
+}
+
+.ajust-anuncio-quantidade input {
+    border-radius: 15px;
+    border: 2px solid #4040FF;
+    padding: 10px;
+    margin: 5px;
+}
+
+.ajust-anuncio-preco input {
+    border-radius: 15px;
+    border: 2px solid #4040FF;
+    padding: 10px;
+    margin: 5px;
+}
+
+.ajust-anuncio-categoria select {
+    border: 2px solid #4040FF;
+    background-color: white;
+    border-radius: 10px;
+    font-size: 15px;
+    text-align: center;
+    padding: 7px;
+    cursor: pointer;
+}
+
+.ajust-anuncio-usuario input {
+    border-radius: 15px;
+    border: 2px solid #4040FF;
+    padding: 10px;
+    margin: 5px;
+}
+
+.ajust-anuncio-button input {
+    border: none;
+    border-radius: 20px;
+    padding: 20px 60px;
+    font-size: 16px;
+    font-weight: 800;
+    background: #e61919;
+    color: white;
+    margin: 10px 80px;
+    cursor: pointer;
+}
+
+.container {
+    width: 95%;
+    height: 92vh;
+    display: flex;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.212);
+}
+
+.form-image {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+.form-image img {
+    width: 36rem;
+    height: 35rem;
+    object-fit: fill;
+}
+
+@media (max-width: 1000px) {
+    .container {
+        width: 100%;
+        height: 95vh;
+        display: flex;
+        flex-direction: row;
+    }
+    
+    .form-image img {
+        display: block;
+        margin: 0 100px;
+        width: 400px;
+        height: 300px;
+        max-width: 100%;
+    }
+
+    .container-ide {
+        margin: 0 70px;
+        margin-top: 100px;
+    }
+}
+
+@media (max-width: 780px) {
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        box-shadow: none;
+    }
+
+    .form-image img {
+        display: flex;
+        align-items: flex-start;
+    }
+}
+
+.form-ajust input {
+    padding: 20px 50px;
+    border: none;
+    margin-top: 20px;
+}

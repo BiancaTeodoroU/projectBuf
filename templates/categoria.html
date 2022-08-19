@@ -4,38 +4,54 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
     <title>categoria</title>
 </head>
 <body>
-    <h4>Cadastro de {{titulo}}</h4>
-    <form action="/categoria/novo" method="post">
-        <p><label for="nome">Nome</label>
-        <input type="text" id="nome" name="nome"></p>
+    <div class="container mt-5 mt-md-4">
+        <div class="page-header">
+            <h4>Cadastro de {{titulo}}</h4>
+        </div>
 
-        <p><label for="desc">Descricao</label>
-        <input type="text" id="desc" name="desc"></p>       
+        <form action="/categoria/novo" method="post">
+            <div class="form-group mt-5 mt-md-4">
+                <label for="nome">Nome</label>
+                <input class="form-control" type="text" id="nome" name="nome">
+            </div>
 
-        <p><input type="submit" value="Cadastrar"></p>
-    </form>
+            <div class="form-group mt-5 mt-md-4">
+                <label for="desc">Descricao</label>
+                <input class="form-control" type="text" id="desc" name="desc">       
+            </div>
+            <div class="mt-5 mt-md-4">
+                <input class="btn btn-primary" type="submit" value="Cadastrar">
+            </div>    
+        </form>
+    </div>
 
-    <h4>Lista de {{titulo}}</h4>
-    <table>
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Descricao</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for categoria in categorias %}
+    <div class="container mt-5 mt-md-4">
+        <div class="page-header">
+        <h4>Lista de {{titulo}}</h4>
+        </div>
+
+        <table class="table table-striped table-responsive table-bordered">
+            <thead class="thread-default">
                 <tr>
-                    <td>{{ categoria.nome }}</td>
-                    <td>{{ categoria.desc }}</td>
-                    <td><a href={{ url_for("editarcategoria",id=categoria.id) }}>Editar?</a></td>
-                    <td><a href={{ url_for("deletarcategoria",id=categoria.id) }}>Deletar?</a></td>
+                    <th>Nome</th>
+                    <th>Descricao</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for categoria in categorias %}
+                    <tr>
+                        <td>{{ categoria.nome }}</td>
+                        <td>{{ categoria.desc }}</td>
+                        <td><a class="text-primary" href={{ url_for("editarcategoria",id=categoria.id) }}>Editar</a></td>
+                        <td><a class="text-danger" href={{ url_for("deletarcategoria",id=categoria.id) }}>Deletar</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

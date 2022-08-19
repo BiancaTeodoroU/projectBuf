@@ -4,61 +4,97 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/style.css"/>
     <title>Anuncio</title>
 </head>
 <body>
-    <h4>Cadastro de {{titulo}}</h4>
-    <form action="/anuncio/novo" method="post">
-        <p><label for="nome">titulo do anuncio</label>
-        <input type="text" id="nome" name="nome"></p>
+    <div class="container">
+        <div class="form-image">
+            <img src="../static/img/finance-illustration-02.png" alt="">
+        </div>
+        <div class="container-anuncio">
+            <form action="/anuncio/novo" method="post">
+                <div class="ajust-title">
+                    <p>Cadastro de {{titulo}}</p>
+                    <span>Abaixo segue as informações que foram armazenadas</span>
+                </div>
+                <div class="container-align ajust-anuncio-nome">
+                    <label for="nome">titulo do anuncio
+                        <input type="text" id="nome" name="nome">
+                    </label>
+                </div>
 
-        <p><label for="desc">Desc</label>
-            <textarea rows="4" cols="50" id="desc" name="desc"></textarea></p>       
-    
-            <p><label for="qtd">Quantidade</label>
-            <input type="text" id="qtd" name="qtd"></p>
-    
-            <p><label for="preco">Preco</label>
-            <input type="text" id="preco" name="preco"></p>
-            
-            <p><label for="cat">Categoria</label>
-            <select id="cat" name="cat">
-                <option>selecione uma categoria</option>
-                {% for categoria in categorias %} 
-                    <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
-                {% endfor %}
-            </select></p>
-    
-            <p><label for="usu">Usuario id</label>
-            <input type="number" id="uso" name="uso"></p>
-    
-        <p><input type="submit" value="Cadastrar"></p>
-    </form>
+                <div class="container-align ajust-anuncio-desc">
+                    <label class="align" for="desc">Desc
+                        <textarea rows="4" cols="50" id="desc" name="desc"></textarea>
+                    </label>       
+                </div>
+                
+                <div class="container-align ajust-anuncio-quantidade">
+                    <label class="align" for="qtd">Quantidade
+                        <input type="text" id="qtd" name="qtd">
+                    </label>
+                </div>
 
-    <h4>Lista de {{titulo}}</h4>
-    <table>
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Desc</th>
-                <th>Qtd</th>
-                <th>Preco</th>
-                <th>Categoria</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for anuncio in anuncios %}
-                <tr>
-                    <td>{{ anuncio.nome }}</td>
-                    <td>{{ anuncio.desc }}</td>
-                    <td>{{ anuncio.qtd }}</td>
-                    <td>{{ anuncio.preco }}</td>
-                    <td>{{ anuncio.get_categoria().nome }}</td>
-                    <td><a href={{ url_for("editaranuncio",id=anuncio.id) }}>Editar?</a></td>
-                    <td><a href={{ url_for("deletaranuncio",id=anuncio.id) }}>Deletar?</a></td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                <div class="container-align ajust-anuncio-preco">
+                    <label for="preco">Preco
+                        <input type="text" id="preco" name="preco">
+                    </label>
+                </div>
+
+                <div class="container-align ajust-anuncio-categoria">
+                    <label for="cat">Categoria
+                        <select id="cat" name="cat">
+                            <option disabled selected>selecione uma categoria</option>
+                            {% for categoria in categorias %} 
+                                <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                </div>
+
+                <div class="container-align ajust-anuncio-usuario">
+                    <label for="usu">Usuario id
+                        <input type="number" id="uso" name="uso">
+                    </label>
+                </div>
+
+                <div class="ajust-anuncio-button">
+                    <input type="submit" value="Cadastrar">
+                </div>
+            </form>
+
+
+        <div class="container-ide">
+            <div class="ajust-title-result">
+                <h4>Lista de {{titulo}}</h4>
+            </div>
+            <table width="100%" class="ajust-result">
+                <thead>
+                    <hr><tr class="tr-ajust">
+                        <th width="25%" height="20%">Nome</th>
+                        <th width="25%">Desc</th>
+                        <th width="25%">Qtd</th>
+                        <th width="25%">Preco</th>
+                        <th width="25%">Categoria</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for anuncio in anuncios %}
+                        <tr>
+                            <td>{{ anuncio.nome }}</td>
+                            <td>{{ anuncio.desc }}</td>
+                            <td>{{ anuncio.qtd }}</td>
+                            <td>{{ anuncio.preco }}</td>
+                            <td>{{ anuncio.get_categoria().nome }}</td>
+                            <td><a class="text-primary" href={{ url_for("anunFavo",id=anuncio.id) }}>Favoritar</a></td>
+                            <td><a class="estile-edit" href={{ url_for("editaranuncio",id=anuncio.id) }}>Editar</a></td>
+                            <td><a class="estile-delete" href={{ url_for("deletaranuncio",id=anuncio.id) }}>Deletar</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            <hr></table>
+        </div>
+        </div>
 </body>
 </html>

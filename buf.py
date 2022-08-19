@@ -106,12 +106,10 @@ def logout():
     return redirect(url_for('index'))
 
 @app.route("/")
-@login_required
 def index():
     return render_template('index.html')
 
 @app.route("/cadastro/usuario")
-@login_required
 def usuario():
     return render_template('usuario.html', usuarios = Usuario.query.all(), titulo="Usuario")
 
@@ -150,6 +148,7 @@ def deletarusuario(id):
     return redirect(url_for('usuario'))     
 
 @app.route("/config/categoria")
+@login_required
 def categoria():
     return render_template('categoria.html', categorias = Categoria.query.all(), titulo='Categoria')
 
@@ -163,9 +162,12 @@ def novacategoria():
 @app.route("/categoria/editar/<int:id>", methods=['GET','POST'])
 def editarcategoria(id):
     categoria = Categoria.query.get(id)
+    print(categoria)
     if request.method == 'POST':
         categoria.nome = request.form.get('nome')
-        categoria.descricao = request.form.get('desc')
+        print(categoria.nome)
+        categoria.desc = request.form.get('desc')
+        print(categoria.desc)
         db.session.add(categoria)
         db.session.commit()
         return redirect(url_for('categoria'))
@@ -234,14 +236,15 @@ def anunComp():
 
 @app.route("/anuncio/favorito")
 def anunFavo():
-    print("favorito inserido")
-    return f"<h3>Inserido com sucesso</h3>"
+    return render_template('favoritar.html')
 
 @app.route("/relatorio/vendas")
+@login_required
 def relaVend():
     return render_template('relaVend.html')
 
 @app.route("/relatorio/compra")
+@login_required
 def relaCompr():
     return render_template('relaCompr.html')
 

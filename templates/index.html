@@ -4,14 +4,42 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../static/css/styles.css">
     <title>ProjectBuf</title>
 </head>
 <body>
-    <h1>Hello world</h1>
-    <p><a href={{ url_for("usuario") }}> Cadastro Usuario</a></p>
-    <p><a href={{ url_for("anuncio") }}> Cadastro anuncio</a></p>
-    <p><a href={{ url_for("categoria") }}> Config categoria</a></p>
-
-    <p><a href={{ url_for("logout") }}> Logout</a></p>
+    <div class="container">
+		<nav class="menu">
+			<ul>
+				<li class="lista-logo">
+					<a href={{ url_for("usuario") }}>
+						<i class="fa fa-user"></i>
+						<span class="span-menu">Cadastro Usuario</span>
+					</a>
+				</li>
+                <li class="lista-logo">
+					<a href={{ url_for("anuncio") }}>
+						<i class="fa fa-bullhorn"></i>
+						<span class="span-menu">Cadastro de Anuncio</span>
+					</a>
+				</li>
+                <li class="lista-logo">
+					<a href={{ url_for("categoria") }}> 
+						<i class="fa fa-gear"></i>
+						<span class="span-menu">Config categoria</span>
+					</a>
+				</li>
+                <li class="lista-logo">
+					<a href={{ url_for("logout") }}> 
+						<i class="fa fa-mail-forward"></i>
+						<span class="span-menu">Logout</span>
+					</a>
+				</li>
+            </ul>
+        </nav>
+        <h3>Welcome the Buf</h3>
+        <div class="home"></div>
+    </div>
 </body>
 </html>
