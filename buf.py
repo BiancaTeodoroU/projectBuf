@@ -165,9 +165,7 @@ def editarcategoria(id):
     print(categoria)
     if request.method == 'POST':
         categoria.nome = request.form.get('nome')
-        print(categoria.nome)
         categoria.desc = request.form.get('desc')
-        print(categoria.desc)
         db.session.add(categoria)
         db.session.commit()
         return redirect(url_for('categoria'))
