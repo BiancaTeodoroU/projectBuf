@@ -57,6 +57,36 @@ class Categoria(db.Model):
         self.nome = nome
         self.desc = desc
 
+class Compra(db.Model):
+    __tablename__ = "compra"
+    id = db.Column("idcompra", db.Integer, primary_key=True)
+    preco = db.Column("com_preco", db.Float)
+    qtd = db.Column("com_qtd", db.Integer)
+    total = db.Column("com_total", db.Float)
+    anuncio_id = db.Column("anunc_idanuncio", db.Integer, db.ForeignKey("anuncio.anuncio_id"))
+    usu_id = db.Column("user_idusuario", db.Integer, db.ForeignKey("usuario.usu_id"))
+    
+    def __init__(self, preco, qtd, total, anuncio_id, usu_id):
+        self.preco = preco
+        self.qtd = qtd
+        self.total = total
+        self.anuncio_id = anuncio_id
+        self.usu_id = usu_id
+
+class Pergunta(db.Model):
+    __tablename__ = "pergunta"
+    id = db.Column("idPergunta", db.Integer, primary_key=True)
+    pergunta = db.Column("per_pergunta", db.String(256))
+    resposta = db.Column("per_resposta", db.String(256))
+    usu_id = db.Column("usu_id", db.Integer, db.ForeignKey("usuario.usu_id"))
+    anuncio_id = db.Column("anuncio_id", db.Integer, db.ForeignKey("anuncio.anuncio_id"))
+    
+    def __init__(self, pergunta, resposta, usu_id, anuncio_id):
+        self.pergunta = pergunta
+        self.resposta = resposta
+        self.usu_id = usu_id
+        self.anuncio_id = anuncio_id
+
 class Anuncio(db.Model):
     __tablename__ = "anuncio"
     id = db.Column('anuncio_id', db.Integer, primary_key=True)
@@ -64,16 +94,16 @@ class Anuncio(db.Model):
     desc = db.Column('anu_descricao', db.String(256))
     qtd = db.Column('anu_quantidade', db.Integer)
     preco = db.Column('anu_preco', db.Float)
-    cat_id = db.Column('cat_id',db.Integer, db.ForeignKey("categoria.cat_id"))
-    usu_id = db.Column('usu_id',db.Integer, db.ForeignKey("usuario.usu_id"))
+    usu_id = db.Column('user_idusuario',db.Integer, db.ForeignKey("usuario.usu_id"))
+    cat_id = db.Column('cat_idcategoria',db.Integer, db.ForeignKey("categoria.cat_id"))
 
-    def __init__(self, nome, desc, qtd, preco, cat_id, usu_id):
+    def __init__(self, nome, desc, qtd, preco, usu_id, cat_id):
         self.nome = nome
         self.desc = desc
         self.qtd = qtd
         self.preco = preco
-        self.cat_id = cat_id
         self.usu_id = usu_id
+        self.cat_id = cat_id
 
     def get_categoria(self):
         return Categoria.query.get(self.cat_id)
@@ -225,12 +255,62 @@ def deletaranuncio(id):
 
 @app.route("/anuncios/pergunta")
 def pergunta():
-    return render_template('anuncioPergunta.html')
+    return render_template('anuncioPergunta.html', perguntas = Pergunta.query.all())
 
-@app.route("/anuncio/compra")
-def anunComp():
-    print("anuncio comprado")
-    return ""
+@app.route("/anunc/fazerpergunta/<int:id>")
+def fazerpergunta(id):
+    anuncio = Anuncio.query.get(id)
+    return render_template("fazerpergunta.html", anuncio = anuncio, usuarios = Usuario.query.all())
+
+@app.route("/anunc/pergunta/criar/<int:id>", methods=['POST'])
+def criarpergunta(id):
+    anuncio = Anuncio.query.get(id)
+    pergunta = Pergunta(request.form.get("pergunta"), "", request.form.get("user"), anuncio.id)
+    db.session.add(pergunta)
+    db.session.commit()
+    return redirect(url_for("pergunta"))
+
+@app.route("/anunc/pergunta/resposta/<int:id>", methods=['GET','POST'])
+def editarperguntar(id):
+    pergunta = Pergunta.query.get(id) 
+    if request.method == "POST":
+        pergunta.pergunta = pergunta.pergunta
+        pergunta.resposta = request.form.get("resposta")
+        pergunta.usu_id = pergunta.usu_id
+        pergunta.anuncio_id = pergunta.anuncio_id
+        db.session.add(pergunta)
+        db.session.commit()
+        return redirect(url_for("pergunta"))
+    return render_template("responderpergunta.html", pergunta = pergunta)
+
+@app.route("/anuncio/compra/")
+def compra():
+    return redirect(url_for("index"))
+
+@app.route("/anuncio/comprar/<int:id>")
+def comprar(id):
+    anuncio = Anuncio.query.get(id)
+    aux = anuncio.qtd
+    return render_template("comprar.html", aux = aux, anuncio = anuncio, usuarios = Usuario.query.all())
+
+@app.route("/anunc/compra/confirmarcompra/<int:id>", methods=['GET','POST'])
+def confirmarcompra(id):
+    anuncio = Anuncio.query.get(id)
+    if int(request.form.get("qtd")) > anuncio.qtd:
+        return render_template("errocompra.html")
+    else:
+        compra = Compra(anuncio.preco, request.form.get("qtd"), anuncio.preco * float(request.form.get("qtd")), anuncio.id, request.form.get("user"))
+        anuncio.nome = anuncio.nome
+        anuncio.desc = anuncio.desc
+        anuncio.qtd = anuncio.qtd - int(request.form.get("qtd"))
+        anuncio.preco = anuncio.preco
+        anuncio.usu_id = anuncio.usu_id
+        anuncio.cat_id = anuncio.cat_id
+        db.session.add(compra)
+        db.session.commit()
+        db.session.add(anuncio)
+        db.session.commit()
+        return redirect(url_for("index"))
 
 @app.route("/anuncio/favorito")
 def anunFavo():
@@ -239,12 +319,12 @@ def anunFavo():
 @app.route("/relatorio/vendas")
 @login_required
 def relaVend():
-    return render_template('relaVend.html')
+    return render_template('relaVend.html', compras = Compra.query.all(), anuncios = Anuncio.query.all(), usuarios = Usuario.query.all())
 
 @app.route("/relatorio/compra")
 @login_required
 def relaCompr():
-    return render_template('relaCompr.html')
+    return render_template('relaCompr.html', compras = Compra.query.all(), anuncios = Anuncio.query.all(), usuarios = Usuario.query.all())
 
 if __name__ == 'buf':
     db.create_all()

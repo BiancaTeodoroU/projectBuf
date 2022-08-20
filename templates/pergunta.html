@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>perguntaaa</title>
+</head>
+<body>
+    <a class="dropdown-item" href={{url_for("pergunta")}}>Perguntas e Respostas</a>
+    <main class="container">
+        <h3>Lista de perguntas</h3>
+        <table class="table table-striped">
+            <thead>
+                <th scope="col">ID</th>
+                <th scope="col">Pergunta</th>
+                <th scope="col">Resposta</th>
+                <th scope="col">Usuário</th>
+                <th scope="col">Anúncio</th>
+                <th scope="col">Responder</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pergunta in perguntas %}
+                    <tr>
+                        <td>{{pergunta.id}}</td>
+                        <td>{{pergunta.pergunta}}</td>
+                        <td>{{pergunta.resposta}}</td>
+                        <td>{{pergunta.usu_id}}</td>
+                        <td>{{pergunta.anuncio_id}}</td>
+                        <td><a href="/anunc/pergunta/resposta/{{pergunta.id}}"></a></td> 
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

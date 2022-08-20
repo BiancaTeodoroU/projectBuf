@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <title>Comprar</title>
+</head>
+<body>
+    <main>
+        <h1>Seja bem vindo</h1>
+        <div class="container">
+            <div class="row">
+                <div class="col" style="margin-top: 10px;">
+                    <div class="card" style="width: 18rem;">
+                        <div>
+                            <p class="favorito"><a href="/anunc/favoritos/detalhes/{{anuncio.id}}"></p>
+                            <img class="card-img-top" src="../static/img/finance-illustration-02.png" height="180px" width="100px">
+                        </div>
+                        <div class="card-body" style="text-align:center;">
+                            <h5 class="card-title">{{anuncio.id}} - {{anuncio.nome}}</h5>
+                            <p class="card-text">{{anuncio.desc}}</p>
+                            {% if anuncio.qtd > 0 %}
+                                <p class="card-text">Quantidade disponível: {{anuncio.qtd}}</p>
+                                <p class="card-text">Valor R${{anuncio.preco}} unidade</p>
+                                <a href="/anunc/fazerpergunta/{{anuncio.id}}" class="btn btn-secondary">perguntar</a>
+                            {% else %}
+                                <p class="card-text">Anúncio indisponível!</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col" style="margin-top: 10px;">
+                    <form action="/anunc/compra/confirmarcompra/{{anuncio.id}}" method="post">
+                        <div class="form-group">
+                            <label>Valor R${{anuncio.preco}} unidade</label>
+                        </div>
+                        <div class="form-group">
+                            <label>Quantidade disponível: {{anuncio.qtd}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="qtd">Quantidade para comprar</label>
+                            <input type="text" class="form-control" id="qtd" placeholder="Quantidade para comprar" name="qtd">
+                        </div>
+                        <div class="form-group">
+                            <label>Anuncio ID: {{anuncio.id}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="user">Usuário</label>
+                            <select class="custom-select custom-select-sm" id="user" name="user">
+                                {% for usuario in usuarios %}
+                                <option value="{{usuario.id}}">{{usuario.id}} - {{usuario.nome}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group" style="text-align: center;">
+                            <input type="submit" value="comprar" class="btn btn-success">
+                        </div>
+                    </form>                    
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
