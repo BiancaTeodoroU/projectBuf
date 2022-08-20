@@ -10,7 +10,8 @@ from flask_login import (current_user, LoginManager,
                             login_required)
 import hashlib
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static', 
+                    static_folder='static/')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://projectbuf:toledo23@localhost:3306/buf'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -260,15 +261,26 @@ def pergunta():
 @app.route("/anunc/fazerpergunta/<int:id>")
 def fazerpergunta(id):
     anuncio = Anuncio.query.get(id)
-    return render_template("fazerpergunta.html", anuncio = anuncio, usuarios = Usuario.query.all())
+    return render_template("fazerpergunta.html", anuncio = anuncio, perguntas = Pergunta.query.filter_by(anuncio_id = anuncio.id))
+
+@app.route("/anunc/fazerpergunta/<int:anuncio>/<int:id>", methods=['POST'])
+def fazerresposta(anuncio, id):
+    pergunta = Pergunta.query.get(id)
+    pergunta.resposta = request.form.get("resposta")
+    db.session.add(pergunta)
+    db.session.commit()
+    return redirect(url_for("fazerpergunta", id = anuncio))
 
 @app.route("/anunc/pergunta/criar/<int:id>", methods=['POST'])
 def criarpergunta(id):
     anuncio = Anuncio.query.get(id)
-    pergunta = Pergunta(request.form.get("pergunta"), "", request.form.get("user"), anuncio.id)
+    pergunta = Pergunta(request.form.get("pergunta"),
+    None, 
+    current_user.id,
+    anuncio.id)
     db.session.add(pergunta)
     db.session.commit()
-    return redirect(url_for("pergunta"))
+    return redirect(url_for("fazerpergunta", id = id))
 
 @app.route("/anunc/pergunta/resposta/<int:id>", methods=['GET','POST'])
 def editarperguntar(id):
@@ -310,7 +322,7 @@ def confirmarcompra(id):
         db.session.commit()
         db.session.add(anuncio)
         db.session.commit()
-        return redirect(url_for("index"))
+        return redirect(url_for("relaCompr"))
 
 @app.route("/anuncio/favorito")
 def anunFavo():

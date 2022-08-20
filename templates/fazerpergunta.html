@@ -9,14 +9,14 @@
 </head>
 <body>
     <main>
-        <h1>Seja bem vindo</h1>
+        <h1 class="m-5 mt-5">Seja bem vindo</h1>
         <div class="container">
             <div class="row">
                 <div class="col" style="margin-top: 10px;">
                     <div class="card" style="width: 18rem;">
                         <div>
-                            <p class="favorito"><a href="/anunc/favoritos/detalhes/{{anuncio.id}}"><img src="../../static/img/favorito.png" height="30" width="30"></a></p>
-                            <img class="card-img-top" src=".././static/img/empresa-que.webp" height="180px" width="100px">
+                            <p class="favorito"><a href="/anunc/favoritos/detalhes/{{anuncio.id}}"></a></p>
+                            <img class="card-img-top" src="/static/img/imagemguria.jpg" height="180px" width="100px">
                         </div>
                         <div class="card-body" style="text-align:center;">
                             <h5 class="card-title">{{anuncio.id}} - {{anuncio.nome}}</h5>
@@ -24,7 +24,7 @@
                             {% if anuncio.qtd > 0 %}
                                 <p class="card-text">Quantidade disponível: {{anuncio.qtd}}</p>
                                 <p class="card-text">Valor R${{anuncio.preco}} unidade</p>
-                                <a href="/anunc/comprar/{{anuncio.id}}" class="btn btn-success">comprar</a>
+                                <a href="/anuncio/comprar/{{anuncio.id}}" class="btn btn-success">comprar</a>
                             {% else %}
                                 <p class="card-text">Anúncio indisponível!</p>
                             {% endif %}
@@ -38,20 +38,36 @@
                             <textarea class="form-control" id="pergunta" name="pergunta" placeholder="Escreva sua pergunta aqui" rows="2"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="user">Usuário</label>
-                            <select class="custom-select custom-select-sm" id="user" name="user">
-                                {% for usuario in usuarios %}
-                                <option value="{{usuario.id}}">{{usuario.id}} - {{usuario.nome}}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="form-group">
                             <label>Anuncio: {{anuncio.id}}</label>
                         </div>
                         <div class="form-group" style="text-align: center;">
                             <input type="submit" value="perguntar" class="btn btn-secondary">
                         </div>
                     </form>                    
+                </div>
+                <div class="container mt-5 mt-md-4">
+                    {% for pergunta in perguntas %}
+                        <div class="form-group mt-5 mt-md-4">
+                            <p>Pergunta: {{ pergunta.pergunta }}</p>
+                            {% if pergunta.resposta != None %}
+                            <p>Resposta: {{ pergunta.resposta }}</p>
+                            {% else %}
+                            <div class="form-group mt-5 mt-md-4">
+                                <form action="/anunc/fazerpergunta/{{ anuncio.id }}/{{ pergunta.id }}" method="post">
+                                    <label for="nome">Responder</label>
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-5">
+                                                <input class="form-control" type="text" id="resposta" name="resposta"/>
+                                                <input class="btn btn-primary mt-3" type="submit"></input>
+                                            </div>    
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            {% endif %}
+                        <hr></div>
+                    {% endfor %}
                 </div>
             </div>
         </div>

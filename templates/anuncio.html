@@ -58,7 +58,7 @@
                         <input type="number" id="uso" name="uso">
                     </label>
                 </div>
-
+                
                 <div class="ajust-anuncio-button">
                     <input type="submit" value="Cadastrar">
                 </div>
@@ -87,6 +87,7 @@
                             <td>{{ anuncio.qtd }}</td>
                             <td>{{ anuncio.preco }}</td>
                             <td>{{ anuncio.get_categoria().nome }}</td>
+                            <td><a href={{ url_for("fazerpergunta",id=anuncio.id) }}>perguntar</a></td>
                             <td><a class="text-primary" href={{ url_for("anunFavo",id=anuncio.id) }}>Favoritar</a></td>
                             <td><a class="estile-edit" href={{ url_for("editaranuncio",id=anuncio.id) }}>Editar</a></td>
                             <td><a class="estile-delete" href={{ url_for("deletaranuncio",id=anuncio.id) }}>Deletar</a></td>
