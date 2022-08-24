@@ -147,7 +147,7 @@ def usuario():
 @app.route("/usuario/criar", methods=['POST'])
 def criarusuario():
     hash = hashlib.sha512(str(request.form.get('senha')).encode("utf-8")).hexdigest()
-    usuario = Usuario(request.form.get('user'), request.form.get('email'),hash,request.form.get('end'))
+    usuario = Usuario(request.form.get('user'), request.form.get('email'),hash,request.form.get('endereco'))
     db.session.add(usuario)
     db.session.commit()
     return redirect(url_for('usuario'))
