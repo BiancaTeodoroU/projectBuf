@@ -1,0 +1,1 @@
+from buf import app as application

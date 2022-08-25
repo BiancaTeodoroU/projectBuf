@@ -1,3 +1,5 @@
+from crypt import methods
+from flask import Flask, make_response
 from flask import Flask
 from markupsafe import escape
 from flask import render_template
@@ -13,6 +15,7 @@ import hashlib
 app = Flask(__name__, static_url_path='/static', 
                     static_folder='static/')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://projectbuf:toledo23@localhost:3306/buf'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://biancateodoro:toledo23@biancateodoro.mysql.pythonanywhere-services.com/biancateodoro$buf'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
